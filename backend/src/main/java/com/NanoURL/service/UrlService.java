@@ -2,6 +2,7 @@ package com.NanoURL.service;
 
 import com.NanoURL.model.Url;
 import com.NanoURL.repository.UrlRepository;
+import com.NanoURL.util.Base62;
 import org.springframework.stereotype.Service;
 
 @Service
