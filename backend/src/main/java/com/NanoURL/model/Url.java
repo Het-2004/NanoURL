@@ -1,6 +1,7 @@
 package com.NanoURL.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "urls")
@@ -17,6 +18,18 @@ public class Url {
     private String longUrl;
 
     private Long clickCount = 0L;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // Constructor
+    public Url() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     // getters & setters
     public Long getId() {
@@ -49,5 +62,21 @@ public class Url {
 
     public void setClickCount(Long clickCount) {
         this.clickCount = clickCount;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

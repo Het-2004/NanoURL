@@ -1,0 +1,30 @@
+# Backend
+backend/target/
+backend/Database/
+backend/data/
+backend/.mvn/
+*.log
+*.class
+
+# Frontend
+frontend/nanourl-frontend/node_modules/
+frontend/nanourl-frontend/dist/
+frontend/nanourl-frontend/.env.local
+frontend/nanourl-frontend/.env.production
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env
+
+# Logs
+logs/
+*.log

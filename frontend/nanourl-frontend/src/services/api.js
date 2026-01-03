@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:8080/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const BASE_URL = `${API_URL}/api`;
 
 export async function shortenUrl(longUrl) {
     const response = await fetch(`${BASE_URL}/shorten`, {
@@ -6,12 +7,13 @@ export async function shortenUrl(longUrl) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(longUrl)
+        body: JSON.stringify({ url: longUrl })
     });
 
     if (!response.ok) {
-        throw new Error("Failed to shorten URL");
+        const error = await response.json();
+        throw new Error(error.error || "Failed to shorten URL");
     }
 
-    return response.text();
+    return response.json();
 }

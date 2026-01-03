@@ -3,7 +3,7 @@ spring:
     name: NanoURL
   
   datasource:
-    url: jdbc:h2:file:./Database/nanourl;AUTO_SERVER=TRUE
+    url: jdbc:h2:file:/app/Database/nanourl;AUTO_SERVER=TRUE
     username: sa
     password: 
     driver-class-name: org.h2.Driver
@@ -15,16 +15,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-        format_sql: true
+        format_sql: false
   
   h2:
     console:
-      enabled: true
-      path: /h2-console
+      enabled: false  # Disable in production for security
 
 jwt:
-  secret: ${JWT_SECRET:nanourl-secret-key-change-this-in-production-make-it-long-and-secure}
+  secret: ${JWT_SECRET}
   expiration: 86400000
 
 server:
   port: 8080
+
+# CORS configuration for production
+cors:
+  allowed-origins: ${ALLOWED_ORIGINS:https://your-frontend-url.onrender.com}
