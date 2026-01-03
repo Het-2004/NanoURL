@@ -1,4 +1,4 @@
-package com.example.NanoURL;
+package com.NanoURL;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
