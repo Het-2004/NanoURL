@@ -3,16 +3,19 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #312E81 100%);
+    background-attachment: fixed;
 }
 
 /* Header */
 .header {
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(15, 23, 42, 0.8);
     backdrop-filter: blur(10px);
-    box-shadow: var(--shadow);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.2);
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .header-content {
@@ -31,12 +34,13 @@
 }
 
 .logo h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
+    font-size: 1.75rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366F1 0%, #EC4899 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: -0.5px;
 }
 
 .nav {
@@ -47,24 +51,42 @@
 
 .nav a {
     text-decoration: none;
-    color: var(--gray-700);
+    color: #E2E8F0;
     font-weight: 500;
-    transition: color 0.2s;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366F1, #EC4899);
+    transition: width 0.3s ease;
 }
 
 .nav a:hover {
-    color: var(--primary);
+    color: #6366F1;
+}
+
+.nav a:hover::after {
+    width: 100%;
 }
 
 .user-menu {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .user-name {
-    color: var(--gray-700);
-    font-weight: 500;
+    color: #E2E8F0;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
 .loading-screen {
@@ -72,9 +94,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
     color: white;
     font-size: 18px;
+    animation: fadeInUp 0.6s ease;
 }
 
 /* Main Content */
@@ -84,6 +107,7 @@
     width: 100%;
     margin: 0 auto;
     padding: 3rem 2rem;
+    animation: fadeInUp 0.6s ease 0.2s backwards;
 }
 
 /* URL Shortener */
@@ -94,10 +118,104 @@
 .hero-section {
     text-align: center;
     margin-bottom: 3rem;
+    animation: fadeInUp 0.6s ease 0.4s backwards;
 }
 
 .hero-title {
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #CBD5E1;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+    background: rgba(15, 23, 42, 0.8);
+    border-top: 1px solid rgba(99, 102, 241, 0.2);
+    padding: 2rem;
+    text-align: center;
+    color: #CBD5E1;
+    margin-top: auto;
+}
+
+.footer p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: #6366F1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #EC4899;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-content {
+        padding: 1rem;
+    }
+
+    .nav {
+        gap: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .main-content {
+        padding: 2rem 1rem;
+    }
+
+    .hero-section {
+        margin-bottom: 2rem;
+    }
+
+    .user-menu {
+        gap: 1rem;
+    }
+
+    .user-name {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo h1 {
+        font-size: 1.3rem;
+    }
+
+    .nav {
+        gap: 0.5rem;
+    }
+
+    .header-content {
+        padding: 0.75rem;
+    }
+}
     font-weight: 800;
     color: white;
     margin-bottom: 1rem;
