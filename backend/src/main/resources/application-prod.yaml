@@ -3,10 +3,9 @@ spring:
     name: NanoURL
   
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/nanourl_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/nanourl_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: ${DB_USER:nanourl_user}
     password: ${DB_PASSWORD:NanoURL@SecurePass123}
-    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 20
       minimum-idle: 5
@@ -20,7 +19,6 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: false
         jdbc:
           batch_size: 20

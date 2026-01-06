@@ -13,7 +13,8 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                String allowedOrigins = System.getenv().getOrDefault("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000");
+                String allowedOrigins = System.getenv().getOrDefault("ALLOWED_ORIGINS", 
+                    "http://localhost:5173,http://localhost:3000,https://nano-url-indol.vercel.app,https://*.vercel.app");
                 registry.addMapping("/api/**")
                         .allowedOrigins(allowedOrigins.split(","))
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")

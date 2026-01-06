@@ -130,7 +130,7 @@ FLUSH PRIVILEGES;
 -- Email: admin@nanourl.com | Password: Admin@123
 
 -- Insert Sample Users (passwords are BCrypt hashed)
-INSERT INTO users (email, password_hash, name, contact_number) VALUES
+INSERT INTO users (email, password, name, contact) VALUES
 -- Password: Test@123
 ('test@nanourl.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye0MQ8VpbLZ7VDGL0E/pKpL7VvVTf3QKa', 'Test User', '9876543210'),
 -- Password: Admin@123  
