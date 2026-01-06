@@ -1,4 +1,4 @@
-# Build stage
+# Build stage - Optimized for Render
 FROM node:18-alpine AS build
 
 WORKDIR /app
@@ -7,37 +7,38 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm ci --only=production
 
 # Copy source code
 COPY . .
+
+# Build argument for API URL (passed during build on Render)
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:8080}
 
 # Build the application
 RUN npm run build
 
 # Runtime stage
-FROM node:18-alpine
+FROM nginx:alpine
 
-WORKDIR /app
+WORKDIR /usr/share/nginx/html
 
-# Install serve to run the production build
-RUN npm install -g serve
+# Remove default nginx static assets
+RUN rm -rf ./*
 
 # Copy built application from build stage
-COPY --from=build /app/dist ./dist
+COPY --from=build /app/dist .
 
-# Copy package.json for reference
-COPY package.json .
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port
-EXPOSE 5173
-
-# Environment variables
-ENV VITE_API_BASE_URL=http://localhost:8080
+# Expose port 80 (Render will map this)
+EXPOSE 80
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:5173 || exit 1
+  CMD wget --quiet --tries=1 --spider http://localhost:80 || exit 1
 
-# Start the application
-CMD ["serve", "-s", "dist", "-l", "5173"]
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

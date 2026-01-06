@@ -1,4 +1,4 @@
-# Multi-stage build for optimized image size
+# Multi-stage build for optimized image size - Optimized for Render
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
@@ -16,22 +16,25 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
+# Install wget for health check
+RUN apk add --no-cache wget
+
 # Create database directory
 RUN mkdir -p /app/Database
 
 # Copy the built JAR from build stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose port
+# Expose port (Render will use PORT environment variable)
 EXPOSE 8080
 
-# Set environment variables (can be overridden)
+# Set default environment variables (will be overridden by Render)
 ENV SPRING_PROFILES_ACTIVE=prod
-ENV JWT_SECRET=change-this-secret-in-production-make-it-very-long-and-secure
+ENV PORT=8080
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:8080/api/health || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://localhost:${PORT}/actuator/health || exit 1
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application with dynamic port
+ENTRYPOINT ["sh", "-c", "java -Dserver.port=${PORT} -jar app.jar"]

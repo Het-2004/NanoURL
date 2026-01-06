@@ -3,22 +3,24 @@ spring:
     name: NanoURL
   
   datasource:
-    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/nanourl_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
-    username: ${DB_USER:nanourl_user}
-    password: ${DB_PASSWORD:NanoURL@SecurePass123}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/nanourl_db}
+    username: ${SPRING_DATASOURCE_USERNAME:nanourl_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:NanoURL@SecurePass123}
     hikari:
-      maximum-pool-size: 20
-      minimum-idle: 5
-      connection-timeout: 20000
-      idle-timeout: 300000
-      max-lifetime: 1200000
+      maximumPoolSize: 20
+      minimumIdle: 5
+      connectionTimeout: 20000
+      idleTimeout: 300000
+      maxLifetime: 1200000
+      auto-commit: true
   
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
     show-sql: false
     properties:
       hibernate:
+        dialect: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
         format_sql: false
         jdbc:
           batch_size: 20
