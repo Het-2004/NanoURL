@@ -1,7 +1,7 @@
 {
   "name": "NanoURL",
   "description": "URL shortener application with unique address",
-  "repository": "https://github.com/yourusername/NanoURL",
+  "repository": "https://github.com/Het-2004/NanoURL",
   "keywords": ["spring-boot", "react", "mysql", "url-shortener"],
   "formation": {
     "web": {

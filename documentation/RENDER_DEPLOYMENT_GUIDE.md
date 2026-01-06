@@ -120,7 +120,7 @@ ALLOWED_ORIGINS = https://nano-url-indol.vercel.app
 ```yaml
 spring:
   datasource:
-    url: ${DATABASE_URL}
+    url: jdbc:${DATABASE_URL}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
