@@ -29,8 +29,8 @@ WORKDIR /app/frontend
 # Copy frontend package files
 COPY frontend/nanourl-frontend/package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install ALL dependencies (dev dependencies needed for build)
+RUN npm install
 
 # Copy frontend source
 COPY frontend/nanourl-frontend/ .
@@ -39,6 +39,7 @@ COPY frontend/nanourl-frontend/ .
 ARG VITE_API_BASE_URL=http://localhost:8080
 ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
+# Run build
 RUN npm run build
 
 # ========================================
