@@ -1,0 +1,60 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+documentation/
+*.md
+!README.md
+
+# Docker
+docker-compose*.yml
+.dockerignore
+backend/.dockerignore
+frontend/.dockerignore
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backend build artifacts (will rebuild in Docker)
+backend/target/
+backend/Database/
+backend/data/
+backend/*.log
+
+# Frontend build artifacts (will rebuild in Docker)
+frontend/**/node_modules/
+frontend/**/dist/
+frontend/**/build/
+frontend/**/.output/
+frontend/**/npm-debug.log*
+frontend/**/yarn-debug.log*
+frontend/**/yarn-error.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Testing
+**/coverage/
+**/.nyc_output/
+
+# Scripts
+scripts/
