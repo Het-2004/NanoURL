@@ -11,12 +11,12 @@ export default function FeaturesModal({ isOpen, onClose }) {
       content: [
         {
           title: 'Create Your Account',
-          description: 'Sign up with your email, Google, or GitHub account. Your first sign-up creates an account, then you can sign in anytime.',
+          description: 'Sign up with your email, name, and contact number. Your first sign-up creates an account, then you can sign in anytime.',
           steps: [
             'Click on "Sign In" button in the top right',
             'Choose to create a new account or sign in',
-            'Use email/password or OAuth providers (Google, GitHub)',
-            'Confirm your email if needed'
+            'Fill in your name, email, contact number, and password',
+            'Start shortening URLs immediately'
           ]
         }
       ]
@@ -58,8 +58,8 @@ export default function FeaturesModal({ isOpen, onClose }) {
       icon: '⭐',
       content: [
         {
-          title: 'Multiple Authentication Methods',
-          description: 'Sign up and sign in using email/password, Google, or GitHub accounts.'
+          title: 'Simple Authentication',
+          description: 'Sign up and sign in using email and password with your contact details.'
         },
         {
           title: 'Instant URL Shortening',

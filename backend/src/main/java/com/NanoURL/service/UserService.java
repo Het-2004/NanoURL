@@ -17,7 +17,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User registerUser(String email, String password, String name) {
+    public User registerUser(String email, String password, String name, String contactNumber) {
         if (userRepository.existsByEmail(email)) {
             throw new RuntimeException("Email already exists");
         }
@@ -25,6 +25,7 @@ public class UserService {
         User user = new User();
         user.setEmail(email);
         user.setName(name);
+        user.setContactNumber(contactNumber);
         user.setPasswordHash(passwordEncoder.encode(password));
         user.setAuthProvider("EMAIL");
 

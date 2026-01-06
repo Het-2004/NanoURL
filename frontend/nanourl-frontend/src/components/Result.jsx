@@ -1,12 +1,42 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../config/api";
 
 export default function Result({ shortUrl, longUrl }) {
     const [copied, setCopied] = useState(false);
+    const [qrCode, setQrCode] = useState(null);
+    const [showQrModal, setShowQrModal] = useState(false);
+    const [qrLoading, setQrLoading] = useState(false);
 
     function copy() {
         navigator.clipboard.writeText(shortUrl);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    }
+
+    async function generateQrCode() {
+        setQrLoading(true);
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/qr/generate/dataurl`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: shortUrl }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setQrCode(data.qrCode);
+                setShowQrModal(true);
+            } else {
+                alert('Failed to generate QR code');
+            }
+        } catch (error) {
+            console.error('Error generating QR code:', error);
+            alert('Error generating QR code');
+        } finally {
+            setQrLoading(false);
+        }
     }
 
     return (
@@ -61,10 +91,52 @@ export default function Result({ shortUrl, longUrl }) {
             <div className="result-actions">
                 <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M3.75 2a.75.75 0 01.75.75v8.5a.75.75 0 01-1.5 0v-8.5A.75.75 0 013.75 2zm8.5 0a.75.75 0 01.75.75v8.5a.75.75 0 01-1.5 0v-8.5a.75.75 0 01.75-.75zM8 3.75a.75.75 0 00-1.5 0v8.5a.75.75 0 001.5 0v-8.5z"/>
+                        <path d="M8 0a8 8 0 100 16A8 8 0 008 0zM5.5 7.5A1.5 1.5 0 117 9a1.5 1.5 0 01-1.5-1.5zm5 0A1.5 1.5 0 1112 9a1.5 1.5 0 01-1.5-1.5z"/>
                     </svg>
                     Test Link
                 </a>
+                <button className="btn-secondary" onClick={generateQrCode} disabled={qrLoading}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M0 2a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H2a2 2 0 01-2-2V2zm0 8a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H2a2 2 0 01-2-2v-2zm8-8a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V2zm4 8a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z"/>
+                    </svg>
+                    {qrLoading ? "Generating..." : "QR Code"}
+                </button>
+            </div>
+
+            {showQrModal && qrCode && (
+                <div className="modal-overlay" onClick={() => setShowQrModal(false)}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>QR Code</h2>
+                            <button className="modal-close" onClick={() => setShowQrModal(false)}>
+                                ✕
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <img src={qrCode} alt="QR Code" className="qr-code-image" />
+                            <p className="qr-info">Scan this QR code to access the shortened URL</p>
+                        </div>
+                        <div className="modal-footer">
+                            <a 
+                                href={qrCode} 
+                                download="qrcode.png" 
+                                className="btn-primary"
+                            >
+                                Download QR Code
+                            </a>
+                            <button 
+                                className="btn-secondary" 
+                                onClick={() => setShowQrModal(false)}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            
+            <div className="result-tip">
+                💡 <span>Track this URL's analytics in your <a href="/history">History</a> page</span>
             </div>
         </div>
     );

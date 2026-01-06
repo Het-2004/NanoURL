@@ -11,3 +11,10 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+
+jwt:
+  secret: test-secret
+  expiration: 3600000
+
+app:
+  base-url: http://localhost:8080

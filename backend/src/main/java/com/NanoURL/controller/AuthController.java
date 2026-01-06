@@ -1,8 +1,10 @@
 package com.NanoURL.controller;
 
 import com.NanoURL.model.User;
+import com.NanoURL.service.LoginHistoryService;
 import com.NanoURL.service.UserService;
 import com.NanoURL.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +22,22 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private LoginHistoryService loginHistoryService;
+
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> signup(@RequestBody Map<String, String> request, HttpServletRequest httpRequest) {
         try {
             String email = request.get("email");
             String password = request.get("password");
             String name = request.get("name");
+            String contactNumber = request.get("contactNumber");
 
-            User user = userService.registerUser(email, password, name);
+            User user = userService.registerUser(email, password, name, contactNumber);
             String token = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getName());
+
+            // Track login
+            loginHistoryService.recordLogin(user, httpRequest, "EMAIL");
 
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
@@ -43,13 +52,16 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> signin(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> signin(@RequestBody Map<String, String> request, HttpServletRequest httpRequest) {
         try {
             String email = request.get("email");
             String password = request.get("password");
 
             User user = userService.authenticateUser(email, password);
             String token = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getName());
+
+            // Track login
+            loginHistoryService.recordLogin(user, httpRequest, "EMAIL");
 
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
@@ -64,7 +76,7 @@ public class AuthController {
     }
 
     @PostMapping("/oauth/{provider}")
-    public ResponseEntity<?> oauthLogin(@PathVariable String provider, @RequestBody Map<String, String> request) {
+    public ResponseEntity<?> oauthLogin(@PathVariable String provider, @RequestBody Map<String, String> request, HttpServletRequest httpRequest) {
         try {
             String email = request.get("email");
             String name = request.get("name");
@@ -72,6 +84,9 @@ public class AuthController {
 
             User user = userService.findOrCreateOAuthUser(email, name, provider.toUpperCase(), providerId);
             String token = jwtUtil.generateToken(user.getEmail(), user.getId(), user.getName());
+
+            // Track login
+            loginHistoryService.recordLogin(user, httpRequest, provider.toUpperCase());
 
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);

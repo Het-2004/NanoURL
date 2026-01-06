@@ -18,6 +18,9 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "contact_number")
+    private String contactNumber;
+
     @Column(name = "password_hash")
     private String passwordHash; // Only for email/password signup
 
@@ -68,6 +71,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public String getPasswordHash() {

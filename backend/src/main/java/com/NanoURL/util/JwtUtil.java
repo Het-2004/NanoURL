@@ -22,7 +22,11 @@ public class JwtUtil {
     private Long expiration;
 
     private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+        if (keyBytes.length < 32) { // HS256 requires >= 256 bits (32 bytes)
+            throw new IllegalStateException("JWT secret too short: " + (keyBytes.length * 8) + " bits. Provide a key with at least 256 bits (32+ characters).");
+        }
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateToken(String email, Long userId, String name) {

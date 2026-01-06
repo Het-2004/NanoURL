@@ -62,7 +62,7 @@
 
 .feature-card p {
   font-size: 14px;
-  color: #94a3b8;
+  color: #e2e8f0;
   line-height: 1.6;
 }
 
@@ -103,4 +103,166 @@
 .cta-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 20px 40px -15px rgba(59, 130, 246, 0.5);
+}
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .features-cta {
+    padding: 50px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-page {
+    padding: 70px 16px 32px;
+  }
+
+  .features-hero {
+    margin-bottom: 40px;
+  }
+
+  .features-hero h1 {
+    font-size: 32px;
+  }
+
+  .features-hero p {
+    font-size: 16px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 50px;
+  }
+
+  .feature-card {
+    padding: 24px;
+    border-radius: 14px;
+  }
+
+  .feature-card:hover {
+    transform: none;
+  }
+
+  .feature-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .feature-card h3 {
+    font-size: 18px;
+  }
+
+  .feature-card p {
+    font-size: 13px;
+  }
+
+  .features-cta {
+    padding: 40px 24px;
+    border-radius: 16px;
+  }
+
+  .features-cta h2 {
+    font-size: 24px;
+  }
+
+  .features-cta p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .cta-button {
+    padding: 14px 28px;
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  .cta-button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-page {
+    padding: 60px 12px 24px;
+  }
+
+  .features-hero {
+    margin-bottom: 30px;
+  }
+
+  .features-hero h1 {
+    font-size: 26px;
+  }
+
+  .features-hero p {
+    font-size: 14px;
+  }
+
+  .feature-card {
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .feature-icon {
+    font-size: 36px;
+  }
+
+  .feature-card h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .features-cta {
+    padding: 32px 20px;
+    border-radius: 14px;
+    margin-bottom: 40px;
+  }
+
+  .features-cta h2 {
+    font-size: 20px;
+  }
+
+  .features-cta p {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  .cta-button {
+    padding: 12px 24px;
+    font-size: 14px;
+    border-radius: 8px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .features-hero h1 {
+    font-size: 22px;
+  }
+
+  .features-hero p {
+    font-size: 13px;
+  }
+
+  .feature-card {
+    padding: 16px;
+  }
+
+  .feature-icon {
+    font-size: 32px;
+  }
+
+  .features-cta h2 {
+    font-size: 18px;
+  }
 }

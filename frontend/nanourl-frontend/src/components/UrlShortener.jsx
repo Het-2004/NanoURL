@@ -50,10 +50,11 @@ export default function UrlShortener() {
     return (
         <div className="url-shortener">
             <div className="hero-section">
+                <div className="hero-badge">✨ Fast & Reliable</div>
                 <h2 className="hero-title">Shorten Your Links, Amplify Your Reach</h2>
                 <p className="hero-subtitle">
                     Create short, memorable links in seconds. Perfect for marketing campaigns,
-                    social media, and sharing.
+                    social media, and sharing. Track analytics and boost your digital presence.
                 </p>
             </div>
 

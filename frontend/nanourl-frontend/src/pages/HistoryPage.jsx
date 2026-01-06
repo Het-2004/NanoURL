@@ -121,8 +121,17 @@ const HistoryPage = () => {
     <div className="history-page">
       <div className="history-header">
         <div>
-          <h1>📊 My URLs</h1>
-          <p>Track and manage all your shortened URLs</p>
+          <div className="history-header-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 2a1 1 0 000 2h6a1 1 0 000-2H9z"/>
+              <path d="M7 4v12a3 3 0 003 3h4a3 3 0 003-3V4"/>
+              <path d="M10 9l4 4m0-4l-4 4"/>
+            </svg>
+          </div>
+          <div>
+            <h1>My URLs</h1>
+            <p>Track and manage all your shortened URLs</p>
+          </div>
         </div>
         <button className="btn-refresh" onClick={fetchHistory}>🔄 Refresh</button>
       </div>
@@ -130,14 +139,17 @@ const HistoryPage = () => {
       {stats && (
         <div className="stats-section">
           <div className="stat-card">
+            <div className="stat-card-icon">📎</div>
             <div className="stat-value">{stats.count}</div>
             <div className="stat-label">Total URLs</div>
           </div>
           <div className="stat-card">
+            <div className="stat-card-icon">👆</div>
             <div className="stat-value">{stats.totalClicks.toLocaleString()}</div>
             <div className="stat-label">Total Clicks</div>
           </div>
           <div className="stat-card">
+            <div className="stat-card-icon">📈</div>
             <div className="stat-value">{(stats.totalClicks / stats.count).toFixed(1)}</div>
             <div className="stat-label">Avg Clicks/URL</div>
           </div>

@@ -1,0 +1,125 @@
+# Quick Reference - MySQL Setup Complete ✅
+
+## Current Status
+✅ **COMPLETE** - MySQL is installed, configured, and all tables are created
+
+---
+
+## Database Connection Details
+
+```
+Host:     localhost
+Port:     3306
+Database: nanourl_db
+Username: nanourl_user
+Password: NanoURL@SecurePass123
+```
+
+---
+
+## Start the Application
+
+### Terminal 1 - Backend
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+Backend runs on: http://localhost:8080
+
+### Terminal 2 - Frontend
+```bash
+cd frontend/nanourl-frontend
+npm run dev
+```
+
+Frontend runs on: http://localhost:5173
+
+---
+
+## Verify Data is Saving
+
+Open another terminal and connect to database:
+```bash
+mysql -u nanourl_user -p nanourl_db
+Password: NanoURL@SecurePass123
+```
+
+Check tables:
+```sql
+SHOW TABLES;
+SELECT COUNT(*) FROM users;
+SELECT COUNT(*) FROM urls;
+```
+
+---
+
+## What Gets Saved to Database
+
+✅ User Registrations  
+✅ Shortened URLs  
+✅ Login History  
+✅ URL Access Logs  
+✅ Contact Form Submissions  
+
+---
+
+## Tables in Database
+
+| Table | Purpose |
+|-------|---------|
+| `users` | User accounts |
+| `urls` | Shortened URLs |
+| `login_history` | Login events |
+| `url_access_log` | URL clicks |
+| `contact_messages` | Contact forms |
+
+---
+
+## Testing Checklist
+
+- [ ] Start backend: `mvn spring-boot:run`
+- [ ] Start frontend: `npm run dev`
+- [ ] Open http://localhost:5173
+- [ ] Create account (check `users` table)
+- [ ] Shorten URL (check `urls` table)
+- [ ] Click shortened URL (check `url_access_log` table)
+- [ ] Login (check `login_history` table)
+- [ ] Verify all data in database
+
+---
+
+## Useful MySQL Commands
+
+```bash
+# Connect
+mysql -u nanourl_user -p nanourl_db
+
+# Show tables
+SHOW TABLES;
+
+# Show users
+SELECT * FROM users;
+
+# Count records
+SELECT COUNT(*) FROM users;
+SELECT COUNT(*) FROM urls;
+
+# Exit
+EXIT;
+```
+
+---
+
+## Tools to Use Database
+
+- **Command Line**: `mysql -u nanourl_user -p nanourl_db`
+- **MySQL Workbench**: (Free GUI tool)
+- **DBeaver**: (Free universal DB tool)
+- **VS Code**: MySQL extension
+
+---
+
+**Everything is ready! Start the application and begin using it.** 🚀
+
+All data will automatically save to MySQL database.

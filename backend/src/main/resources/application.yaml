@@ -10,10 +10,10 @@ spring:
       max-age: 3600
   
   datasource:
-    url: jdbc:h2:file:./Database/nanourl;AUTO_SERVER=TRUE
-    username: sa
-    password: 
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/nanourl_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: nanourl_user
+    password: NanoURL@SecurePass123
+    driver-class-name: com.mysql.cj.jdbc.Driver
   
   jpa:
     hibernate:
@@ -21,17 +21,38 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+
+jwt:
+  secret: ${JWT_SECRET:9d8f0c6b2e5a4c1f7d9b6a8c3e4f1a0d9c7b5a3e1f6d8c2b4a9e7c5d3b1f0a2c}
+  expiration: 86400000
+
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}
+
+server:
+  port: 8080
+
+---
+# H2 Console Profile (for development only)
+spring:
+  config:
+    activate:
+      on-profile: h2
+  
+  datasource:
+    url: jdbc:h2:file:./data/nanourl_db;AUTO_SERVER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   
   h2:
     console:
       enabled: true
       path: /h2-console
-
-jwt:
-  secret: ${JWT_SECRET:nanourl-secret-key-change-this-in-production-make-it-long-and-secure}
-  expiration: 86400000
-
-server:
-  port: 8080
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false

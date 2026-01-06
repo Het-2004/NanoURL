@@ -3,10 +3,16 @@ spring:
     name: NanoURL
   
   datasource:
-    url: jdbc:h2:file:/app/Database/nanourl;AUTO_SERVER=TRUE
-    username: sa
-    password: 
-    driver-class-name: org.h2.Driver
+    url: ${DB_URL:jdbc:mysql://localhost:3306/nanourl_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DB_USER:nanourl_user}
+    password: ${DB_PASSWORD:NanoURL@SecurePass123}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
   
   jpa:
     hibernate:
@@ -14,16 +20,20 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: false
-  
-  h2:
-    console:
-      enabled: false  # Disable in production for security
+        jdbc:
+          batch_size: 20
+          fetch_size: 50
+        order_inserts: true
+        order_updates: true
 
 jwt:
   secret: ${JWT_SECRET}
   expiration: 86400000
+
+app:
+  base-url: ${APP_BASE_URL}
 
 server:
   port: 8080

@@ -5,6 +5,7 @@ import com.NanoURL.service.UrlService;
 import com.NanoURL.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,9 @@ public class UrlController {
     
     @Autowired
     private UserService userService;
+    
+    @Value("${app.base-url:http://localhost:8080}")
+    private String baseUrl;
 
     public UrlController(UrlService urlService) {
         this.urlService = urlService;
@@ -41,7 +45,7 @@ public class UrlController {
             String shortCode = urlService.shortenUrl(longUrl, userId);
             return ResponseEntity.ok(Map.of(
                 "shortCode", shortCode,
-                "shortUrl", "http://localhost:8080/" + shortCode,
+                "shortUrl", baseUrl + "/" + shortCode,
                 "longUrl", longUrl
             ));
         } catch (Exception e) {
@@ -78,7 +82,7 @@ public class UrlController {
                         Map<String, Object> urlMap = new HashMap<>();
                         urlMap.put("id", url.getId());
                         urlMap.put("shortCode", url.getShortCode());
-                        urlMap.put("shortUrl", "http://localhost:8080/" + url.getShortCode());
+                        urlMap.put("shortUrl", baseUrl + "/" + url.getShortCode());
                         urlMap.put("longUrl", url.getLongUrl());
                         urlMap.put("clickCount", url.getClickCount());
                         urlMap.put("createdAt", url.getCreatedAt().toString());
