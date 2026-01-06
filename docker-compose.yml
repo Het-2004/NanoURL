@@ -3,12 +3,12 @@ services:
     image: mysql:8.0
     container_name: nanourl-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: nanourl_db
-      MYSQL_USER: nanourl_user
-      MYSQL_PASSWORD: secure_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-nanourl_db}
+      MYSQL_USER: ${MYSQL_USER:-nanourl_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-secure_password}
     ports:
-      - "33061:3306"
+      - "${MYSQL_PORT:-33061}:3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./database/database_schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
@@ -27,15 +27,32 @@ services:
       dockerfile: Dockerfile
     container_name: nanourl-backend
     ports:
-      - "8080:8080"
+      - "${BACKEND_PORT:-8080}:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/nanourl_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: nanourl_user
-      SPRING_DATASOURCE_PASSWORD: secure_password
-      JWT_SECRET: 9d8f0c6b2e5a4c1f7d9b6a8c3e4f1a0d9c7b5a3e1f6d8c2b4a9e7c5d3b1f0a2c
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:mysql://mysql:3306/nanourl_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-nanourl_user}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-secure_password}
+      JWT_SECRET: ${JWT_SECRET:-9d8f0c6b2e5a4c1f7d9b6a8c3e4f1a0d9c7b5a3e1f6d8c2b4a9e7c5d3b1f0a2c}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3000}
     depends_on:
       mysql:
         condition: service_healthy
+    networks:
+      - nanourl-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend/nanourl-frontend
+      dockerfile: Dockerfile
+    container_name: nanourl-frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:5173"
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080}
+    depends_on:
+      - backend
     networks:
       - nanourl-network
     restart: unless-stopped
@@ -44,7 +61,7 @@ services:
     image: redis:7-alpine
     container_name: nanourl-redis
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis-data:/data
     networks:

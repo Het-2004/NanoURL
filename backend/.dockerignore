@@ -1,0 +1,53 @@
+# Docker build optimization - exclude unnecessary files
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+docker-compose.yml
+docker-compose.prod.yml
+.dockerignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*.iml
+.project
+.classpath
+
+# Build artifacts
+target/
+build/
+dist/
+node_modules/
+
+# Documentation (optional, can be removed)
+*.md
+documentation/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.*
+
+# CI/CD
+.github/
+
+# OS files
+.classpath
+.project
+.settings/
+.c9/
+*.launch

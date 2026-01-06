@@ -1,0 +1,51 @@
+services:
+  - type: web
+    name: nanourl-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: nanourl-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: nanourl-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: nanourl-db
+          property: password
+      - key: JWT_SECRET
+        sync: false
+      - key: APP_BASE_URL
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          name: nanourl-redis
+          property: connectionString
+
+  - type: web
+    name: nanourl-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/nanourl-frontend/Dockerfile
+    plan: free
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          name: nanourl-backend
+          property: url
+
+  - type: redis
+    name: nanourl-redis
+    plan: free
+    maxmemoryPolicy: allkeys-lru
+
+databases:
+  - name: nanourl-db
+    databaseName: nanourl_db
+    user: nanourl_user
+    plan: free
