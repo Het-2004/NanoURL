@@ -191,6 +191,7 @@ All documentation is organized in the [`documentation/`](documentation/) folder:
 
 #### 🚀 Deployment
 - [Deployment Guide](documentation/DEPLOYMENT_GUIDE.md) - Production deployment
+- [Vercel Deployment Guide](documentation/VERCEL_DEPLOYMENT_GUIDE.md) - Deploy to Vercel
 - [Installation Guide](documentation/INSTALLATION_GUIDE.md) - Complete installation
 
 #### 📊 Project Reports

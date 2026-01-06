@@ -24,6 +24,8 @@ Thumbs.db
 # Environment
 .env
 *.env
+.env.vercel
+.vercel/
 
 # Logs
 logs/
