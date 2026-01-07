@@ -62,3 +62,20 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+
+# Use the PostgreSQL Driver
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Hibernate Dialect for PostgreSQL
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+# Ensure the URL is read from the environment variable (Render uses DATABASE_URL)
+# Spring Boot often maps DATABASE_URL automatically, but being explicit helps.
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.username=${DATABASE_USERNAME}
+spring.datasource.password=${DATABASE_PASSWORD}
+
+# JPA Settings
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+
