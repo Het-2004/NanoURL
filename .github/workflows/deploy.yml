@@ -53,7 +53,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend
 
       - name: Build and Push Backend Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./Backend
           file: ./Backend/src/main/java/com/NanoURL/Dockerfile
@@ -70,7 +70,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend
 
       - name: Build and Push Frontend Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./Frontend
           push: true
