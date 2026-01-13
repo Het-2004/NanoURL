@@ -1,35 +1,86 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Header from "./components/Header";
+import UrlShortener from "./components/UrlShortener";
+import AuthPage from './pages/AuthPage';
+import FeaturesPage from './pages/FeaturesPage';
+import HistoryPage from './pages/HistoryPage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import Contact from './pages/Contact';
+import { useAuth } from './context/AuthContext';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+// Protected Route Component
+function ProtectedRoute({ children }) {
+    const { user } = useAuth();
+    
+    if (!user) {
+        return <Navigate to="/auth" replace />;
+    }
+    
+    return children;
 }
 
-export default App
+function App() {
+    const { loading, user } = useAuth();
+
+    if (loading) {
+        return <div className="loading-screen">Loading...</div>;
+    }
+
+    return (
+        <div className="app">
+            {user && <Header />}
+            <Routes>
+                <Route path="/auth" element={
+                    user ? <Navigate to="/" replace /> : <AuthPage />
+                } />
+                <Route path="/" element={
+                    <ProtectedRoute>
+                        <main className="main-content">
+                            <UrlShortener />
+                        </main>
+                    </ProtectedRoute>
+                } />
+                <Route path="/features" element={
+                    <ProtectedRoute>
+                        <FeaturesPage />
+                    </ProtectedRoute>
+                } />
+                <Route path="/history" element={
+                    <ProtectedRoute>
+                        <HistoryPage />
+                    </ProtectedRoute>
+                } />
+                <Route path="/privacy" element={
+                    <ProtectedRoute>
+                        <PrivacyPolicy />
+                    </ProtectedRoute>
+                } />
+                <Route path="/terms" element={
+                    <ProtectedRoute>
+                        <TermsOfService />
+                    </ProtectedRoute>
+                } />
+                <Route path="/contact" element={
+                    <ProtectedRoute>
+                        <Contact />
+                    </ProtectedRoute>
+                } />
+                <Route path="*" element={<Navigate to={user ? "/" : "/auth"} replace />} />
+            </Routes>
+            {user && (
+                <footer className="footer">
+                    <p>&copy; 2026 NanoURL. All rights reserved.</p>
+                    <div className="footer-links">
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/terms">Terms of Service</a>
+                        <a href="/contact">Contact</a>
+                    </div>
+                </footer>
+            )}
+        </div>
+    );
+}
+
+export default App;

@@ -1,4 +1,4 @@
-package com.example.NanoURL;
+package com.NanoURL;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

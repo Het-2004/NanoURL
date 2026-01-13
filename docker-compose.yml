@@ -1,0 +1,71 @@
+# Docker Compose for NanoURL
+# Run: docker-compose up -d
+
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: nanourl-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: nanourl_db
+      MYSQL_USER: nanourl_user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-NanoURL@SecurePass123}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./Database/database_schema.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - nanourl-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: src/main/java/com/NanoURL/Dockerfile
+    container_name: nanourl-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/nanourl_db?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: nanourl_user
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-NanoURL@SecurePass123}
+      JWT_SECRET: ${JWT_SECRET:-YourSuperSecretKeyForJWTTokenGeneration2026!}
+      JWT_EXPIRATION: 86400000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - nanourl-network
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./Frontend
+      args:
+        VITE_API_URL: http://localhost:8080
+    container_name: nanourl-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - nanourl-network
+
+networks:
+  nanourl-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
