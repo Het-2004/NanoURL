@@ -421,7 +421,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Author
 
-**Het Patel**
+**Het Solanki**
 - GitHub: [@Het-2004](https://github.com/Het-2004)
 - Project Link: [https://github.com/Het-2004/NanoURL](https://github.com/Het-2004/NanoURL)
 
