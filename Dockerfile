@@ -36,8 +36,8 @@ RUN npm install
 COPY frontend/nanourl-frontend/ .
 
 # Build frontend with environment variable support
-ARG VITE_API_BASE_URL=http://localhost:8080
-ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+ARG VITE_API_URL=/api
+ENV VITE_API_URL=${VITE_API_URL}
 
 # Run build
 RUN npm run build
